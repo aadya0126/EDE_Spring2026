@@ -15,7 +15,7 @@ This exercise accompanies the introductory material in Environmental Data Analyt
 5.  When you have completed the assignment, **Knit** the text and code into a single PDF file.
 6.  After Knitting, submit the completed exercise (PDF file) to the appropriate assignment section on Canvas.
 
-7.  Initial here to acknowledge that you did not use AI at all in completing this assignment: ___
+7.  Initial here to acknowledge that you did not use AI at all in completing this assignment: AS
 
 ---
 
@@ -24,23 +24,23 @@ Enter answers to the questions just below the >Answer: prompt.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: 
+> Answer: I briefly used R for an introductory statistics course in my Bachelor's - simple tasks such as plotting and making statistical inferences. I have never used Git before or any other analytical software.
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: 
+> Answer: I think I'm confident in my ability to grasp concepts quickly. I also feel confident knowing that there is a strong support system in the classroom among peers and especially from the instructor. On a technical level, however, it feels as if I have forgotten most of what I learned in my Bachelor's so this all feels new.
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: 
+> Answer: I am worried about how the course load might be towards the second half of the semester, but that is just a minor concern.
 
 4. Describe a dataset you have used in the past. Explain whether it was a primary or secondary dataset. 
 
-> Answer:
+> Answer: During a marine mammal internship, I assisted the team in collecting photographs of spinner dolphins and any associated metadata, such as population size, behavioral information, etc. We compiled and used this data for our own population demographic studies. I believe that this was a primary dataset since we collected the data ourselves.
 
 5. Would you describe the day of the month as a nominal, ordinal, interval, or ratio number? Explain your reasoning.
 
-> Answer: 
+> Answer: I think I would describe it as an interval number. The days follow an order with the same intervals between them but one number isn't any better than another, so it cannot be ordinal, or comparable to another, so it cannot be ratio.
 
 ---
 
