@@ -14,14 +14,14 @@ output: pdf_document
 
 ```{r Setup}
 #Import packages
-library(tidyverse); library(lubridate); library(here)
+library(tidyverse); library(here)
 
 #Check workspace
 here()
 
 #Import data
 pm25 <- read.csv(
-  #----ENTER THE FILENAME HERE, USING THE here() PACKAGE----
+ file = here("./Data/Raw/EPAair_PM25_NC2019_raw.csv"),
   stringsAsFactors = TRUE,
   colClasses = c("Site.ID"='factor')
 )
@@ -39,12 +39,12 @@ pm25$Date <- mdy(pm25$Date)
 
 ```{r Explore the data}
 # Compute the number of different sites
-
+unique(pm25$Site.ID) #25
 
 # Compute the mean and median PM 2.5 concentration
 
 
-# What are the units
+# What are the units (maybe a column or the metadata)
 
 
 # What is the date range (min and max dates)

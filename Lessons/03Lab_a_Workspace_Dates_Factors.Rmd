@@ -3,6 +3,8 @@ title: "Lab 3a - Workspaces, Dates, and Factors"
 author: "Environmental Data Analytics | John Fay and Luana Lima "
 date: "Spring 2026"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Objectives
@@ -100,11 +102,13 @@ Remember formatting of dates in R:
 # Write code for three different date formats. 
 # An example is provided to get you started.
 # (code must be uncommented)
-today <- Sys.Date()
-format(today, format = "%B")
+today <- Sys.Date() #standard date format is y-m-d
+format(today, format = "%B") #converting specifically to unabbreviated month
+format(today, format = "%A") #converting specifically to unabbreviated day of the week
 #format(today, format = "")
 #format(today, format = "")
-#format(today, format = "")
+
+#importing dataframe, dates seen as string
 
 ```
 
@@ -131,8 +135,11 @@ date_obj_today
 
 #Ex_3 - on your own...
 str_juneteenth <- "19 June 1865"
-#date_juneteenth <- ()
-#date_juneteenth
+date_juneteenth <- dmy(str_juneteenth)
+date_juneteenth
+
+str_juneteenth2 <- paste("19 June","the_year") #paste combines different strings together into one
+date_juneteenth2 <- dmy(str_juneteenth2) #CHECK LECTURE RECORDING
 ```
 ### The century issue
 
@@ -148,7 +155,7 @@ date_obj_past
 fix.early.dates <- function(d, cutoff) {
   
        m <- year(d) %% 100  
-       # The %% operator does modular division i.e. integer-divides 
+       # The %% operator does modular division i.e. integer-divides #so %% 100 returns last 2 values 
        # year(d) by 100 and returns the remainder 
        
        year(d) <- ifelse(m > cutoff, 1900+m, 2000+m)  
@@ -176,6 +183,7 @@ str_past <- "55-feb-3"
 #Alternative 1
 date_obj_past <- fast_strptime(str_past,"%y-%b-%d",cutoff_2000=26L)
 date_obj_past
+#26L = integer; integers have no room for decimals but numbers do
 
 #Alternative 2
 date_obj_past2 <- parse_date_time2(str_past,"ymd",cutoff_2000=26L)
@@ -209,10 +217,13 @@ sites <- read.csv(
   stringsAsFactors = T,
   colClasses=c('site_no'='factor')
   )
+# want to treat character columns as categories; factor = type of character
+# factor w/ 133 levels = 133 unique values
 dim(sites)
 
 #Convert date column to date object
 sites$date <- ymd_hms(sites$date)
+#hms - hour minutes seconds ; POSIXct shows up in the output df w/ standard date formats
 
 ```
 
@@ -224,6 +235,7 @@ Note: `wday` is a `lubridate()` function...
 
 #Compute the day of the week each sample was collected 
 sites$dow <- wday(sites$date)
+#day of the week, 1 is Sunday
 
 ## What class is the dow column?
 class(sites$dow)
@@ -238,21 +250,21 @@ summary(sites$dow)
 
 ### Convert the days of the week to a factor
 ```{r convert dow column to factor and explore}
-
-#Convert to a factor
+#ASK ABOUT THIS SECTION
+#Convert to a factor; treating days as categories is easier
 sites$dow <- factor(sites$dow)
 
 ## What class is the dow column now?
 class(sites$dow)
 
 #List the unique values in the column
-unique(sites$dow)
+unique(sites$dow) 
 
 #Summary - is it meaningful?
 summary(sites$dow)
 
 #Show the levels associated with our factor column
-levels(sites$dow)
+levels(sites$dow) #levels = unique values you see
 ```
 
 ### Factors & Levels
@@ -319,6 +331,8 @@ levels(sites$dow)
 ggplot(sites,aes(x=dow)) +
   geom_bar() + 
   scale_x_discrete(drop=FALSE)
+
+#Factors have levels and labels
 ```
 
 ### Exercise: see if you can plot the number of samples recorded each month
@@ -331,6 +345,7 @@ Hint: Follow the same steps above:
 Tip:
 -   R has a built in variable `month.abb` that holds a list of all 12 months
 ```{r}
+#TRY factors & levels; ask John during OH
 #[RE]read in the USGS data
 usgs_flow_data <- read.csv(
   file = here('Data','Raw','USGS_Site02085000_Flow_Raw.csv'),
