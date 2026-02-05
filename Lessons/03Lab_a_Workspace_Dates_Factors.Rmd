@@ -250,7 +250,7 @@ summary(sites$dow)
 
 ### Convert the days of the week to a factor
 ```{r convert dow column to factor and explore}
-#ASK ABOUT THIS SECTION
+
 #Convert to a factor; treating days as categories is easier
 sites$dow <- factor(sites$dow)
 
@@ -289,6 +289,7 @@ ggplot(sites,aes(x=dow)) +
 #Update the levels to include all seven days of the week 
 #  (note we have to start with existing levels)
 levels(sites$dow) <- c(levels(sites$dow),"1","2","6","7")
+#using the commas and '' combines the values
 
 #Confirm the change
 levels(sites$dow)
@@ -345,7 +346,7 @@ Hint: Follow the same steps above:
 Tip:
 -   R has a built in variable `month.abb` that holds a list of all 12 months
 ```{r}
-#TRY factors & levels; ask John during OH
+
 #[RE]read in the USGS data
 usgs_flow_data <- read.csv(
   file = here('Data','Raw','USGS_Site02085000_Flow_Raw.csv'),
