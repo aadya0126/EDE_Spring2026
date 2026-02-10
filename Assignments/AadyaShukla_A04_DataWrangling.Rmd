@@ -228,8 +228,8 @@ dim(EPA.data.summary) # 182 rows and 5 columns
 
 15. Why did we use the function `drop_na` rather than `na.omit`? Hint: replace `drop_na` with `na.omit` in part 13 and observe what happens with the dimensions of the summary date frame.
 
-> Answer: The na.omit function is a very crude way of removing NA values as it removes any and every row that has NAs. In our case, we are only removing NA values from the ozone column, not from the PM 2.5 column. This is easily achieved using drop_na. However, the na.omit removed rows that had NAs in the PM2.5 column as well, resulting in the deletion of 80 more columns than necessary.
+> Answer: The na.omit function is a very crude way of removing NA values as it removes any and every row that has NAs. In our case, we are only removing NA values from the ozone column, not from the PM 2.5 column. This is easily achieved using drop_na. However, the na.omit removed rows that had NAs in the PM2.5 column as well, resulting in the deletion of 80 more rows than necessary.
 
 16. Stage, commit, and push your Assignment to your GitHub account. Provide a link to your repository below.
 
-> Github repository URL: https:\\github.com\
+> Github repository URL: https://github.com/aadya0126/EDE_Spring2026
