@@ -34,13 +34,16 @@ NTL.phys.data <- read.csv(
 )
 
 #Show the datatype of the 'sampledate' column
-str(NTL.phys.data$sampledate)
+str(NTL.phys.data$sampledate) #factor
 
 #Alternatively, use the tidyverse/dplyr "glimpse" function
-glimpse(NTL.phys.data$sampledate)
+glimpse(NTL.phys.data$sampledate) #same output as str
+
+class(NTL.phys.data$sampledate) #factor
 
 # Change sampledate values into date objects
 NTL.phys.data$sampledate <- mdy(NTL.phys.data$sampledate)
+#always add date codes to the same chunk as reading in your file; so if you get NAs, you can re-run the code chunk from the start
 ```
 
 ---
@@ -61,33 +64,43 @@ Enter these filter expressions below
 class(NTL.phys.data$lakeid)
 class(NTL.phys.data$depth)
 
-# dplyr filtering 
+# dplyr filtering, weant surface values so depth == 0 (== for equal to)
 NTL.phys.data.surface <- filter(NTL.phys.data, depth == 0) 
 
 # Choose multiple conditions to filter
-levels(NTL.phys.data$lakename)
+levels(NTL.phys.data$lakename) #using levels for all the unique values cause it's a factor
+#filtering if it meets the criteria; are you in this set of values
 NTL.phys.data.PeterPaul <- 
   filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake"))
 
 # Choose a range of conditions of a numeric or integer variable
 summary(NTL.phys.data$daynum)
-NTL.phys.data.JunethruOctober <- filter(NTL.phys.data, daynum %in% c(152:304))
+
+#filtering original dataset on column daynum; are you in the set of values from 152-304?
+#First day of June = 152nd day, Last day of October = 304th day
+# c() is for supplying a vector
+NTL.phys.data.JunethruOctober <- filter(NTL.phys.data, daynum %in% c(152:304)) #values come out to be 33994 because of leap year
+
+NTL.phys.data.JunethruOctober2 <- filter(
+  NTL.phys.data, month(sampledate) %in% c(6:10)) #values come out to be 33914 
 ```
 
 ```{r Exercise 1 & 2}
 # Exercise 1: 
 # filter NTL.phys.data for the year 1999
 # what code do you need to use, based on the class of the variable?
-
+NTL.phys.data.1999 <- filter(NTL.phys.data, year(sampledate) %in% c(1999))
 
 # Exercise 2: 
 # filter NTL.phys.data for Tuesday Lake from 1990 through 1999.
-
+NTL.phys.data.Tuesday9099 <- filter(NTL.phys.data, lakename %in% c("Tuesday Lake"), year(sampledate) %in% c(1990:1999))
+# can use , to separate commands but also &
+# can use | to indicate or
 
 ```
 Question: Why don't we filter using row numbers?
 
-> Answer: 
+> Answer: We don't control row numbers; if we change the ascending/descending order, row numbers remain same but that won't be reliable
 
 ---
 
@@ -102,23 +115,42 @@ Let's say we want to take our raw dataset (NTL.phys.data), *then* filter the dat
 #Example using pipes to wrangle data: 
 #Add pipes in the correct place below
 NTL.phys.data.processed <- 
-  NTL.phys.data
-  filter(lakename == "Paul Lake" | lakename == "Peter Lake") 
-  select(lakename, sampledate:temperature_C) 
+  NTL.phys.data %>%
+  filter(lakename == "Paul Lake" | lakename == "Peter Lake") %>%
+  select(lakename, sampledate:temperature_C) %>%
   mutate(temperature_F = (temperature_C*9/5) + 32)
+# pipe after ntl.phys.data file name to highlight your first argument
+# first argument is wherever the data is wrangled from
 
 #Exercise 3: Using a pipe filter NTL.phys.data for Tuesday Lake from 1990 
 # through 1999 only for July.
-
+e3 <- NTL.phys.data %>% 
+  filter(
+    lakename == 'Tuesday Lake' &
+      year4 %in% 1990:1999 & 
+      month(sampledate) == 7)
   
-
 #Exercise 4: Using the data from part 3, a pipe, and the summarize() function, 
 # find the mean surface water temperature. 
 # (hint: you will need to filter for depth==0). 
+e4 <- e3 %>% 
+  filter(depth==0) %>% 
+  summarize(meanT = mean(temperature_C))
 
-  
 ```
 
+```{r}
+#Split, apply, combine
+
+# split dataset into groups of year so every row has now combined into 1 year
+# summarize: apply an aggregating function; calculate mean temp
+demo <- NTL.phys.data %>%
+  filter(depth==0) %>%
+  group_by(year4) %>%
+  summarize(
+    meanT = mean(temperature_C)
+  )
+```
 
 
 ## Gather and Spread
@@ -131,11 +163,20 @@ For gather we will use `pivot_longer` and for spread we will use `pivot_wider`.
 #  the new column holding the irradiance type as "Irradiance_Type", and name the
 #  new column holding the irradiance values as "Irradiance_Value".
 
-
+e5 <- NTL.phys.data %>% 
+  pivot_longer(
+    cols = c(irradianceWater, irradianceDeck),
+    names_to = 'irradiance_type',
+    values_to = 'irradiance'
+  )
 
 #Exercise 6: Spread temperatureC into more than one column based on the depth.
-
-
+e6 <- NTL.phys.data %>% 
+  pivot_wider(
+    names_from = depth,
+    values_from = temperature_C,
+    id_cols = c(lakename, sampledate)
+  )
 
 ```
 
