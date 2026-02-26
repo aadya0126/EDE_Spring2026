@@ -175,6 +175,7 @@ the_facility <- '0004-0001'
 the_year <- 2020
 the_scrape_url <- paste0(the_base_url, '/', the_facility, '/', the_year)
 print(the_scrape_url)
+#paste0 eliminates any spaces between the elements we're combining
 
 #Retrieve the website contents 
 the_website <- read_html(the_scrape_url)
