@@ -153,6 +153,7 @@ Add a **table of contents** and **list of figures** to your document and knit to
 
 ## Git Repository
 
+https://github.com/aadya0126/EDE_Spring2026
 
 I did not use AI in the completion of this assignment.
 Aadya Shukla, 03/01/2026
